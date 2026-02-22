@@ -40,7 +40,7 @@ function fmtDate(iso: string) {
   <section class="hero">
     <img
       class="hero-bg-img"
-      src="/2017/20170826_ashenda.jpg"
+      src={base + '/2017/20170826_ashenda.jpg'}
       alt=""
       aria-hidden="true"
       fetchpriority="high"
@@ -157,7 +157,7 @@ function fmtDate(iso: string) {
         <!-- Decorative image (hidden on mobile) -->
         <div class="about-img-wrap fade fd1">
           <img
-            src="/2017/20170429_benefit2.jpg"
+            src={base + '/2017/20170429_benefit2.jpg'}
             alt="TWAS community gathering"
             loading="lazy"
           />
@@ -192,7 +192,7 @@ function fmtDate(iso: string) {
             <a href={`${base}/events#${evt.id}`} class={`event-card fade fd${i + 1}`}>
               <div class="ec-media">
                 {photo
-                  ? <img src={photo.src} alt={photo.alt} loading="lazy" />
+                  ? <img src={base + photo.src} alt={photo.alt} loading="lazy" />
                   : <div style="background:var(--sea-blue);display:flex;align-items:center;justify-content:center;height:100%;color:var(--eth-gold);font-size:2.5rem;">▶</div>
                 }
                 {evt.tags?.[0] && <span class="ec-tag">{evt.tags[0]}</span>}

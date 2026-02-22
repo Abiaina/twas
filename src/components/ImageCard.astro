@@ -13,6 +13,8 @@ interface Props extends Photo {
 }
 
 const { src, alt, event, date, class: extraClass } = Astro.props;
+const base    = import.meta.env.BASE_URL.replace(/\/$/, '');
+const fullSrc = base + src;
 ---
 
 <!--
@@ -21,12 +23,12 @@ const { src, alt, event, date, class: extraClass } = Astro.props;
 -->
 <div
   class={`image-card ${extraClass ?? ''}`}
-  data-src={src}
+  data-src={fullSrc}
   data-event={event}
   data-date={date}
   aria-label={`${event} — ${date}. Click to enlarge.`}
 >
-  <img src={src} alt={alt} loading="lazy" decoding="async" />
+  <img src={fullSrc} alt={alt} loading="lazy" decoding="async" />
   <div class="img-caption" aria-hidden="true">
     <span class="evt">{event}</span>
     <span class="dat">{date}</span>

@@ -1,0 +1,34 @@
+---
+/**
+ * ImageCard — a photo tile with an event/date caption overlay.
+ * Used in event galleries. Clicking opens the global lightbox.
+ *
+ * Props mirror the Photo interface from src/data/types.ts.
+ */
+import type { Photo } from '@data/types';
+
+interface Props extends Photo {
+  /** Extra CSS classes on the wrapper */
+  class?: string;
+}
+
+const { src, alt, event, date, class: extraClass } = Astro.props;
+---
+
+<!--
+  data-* attributes are read by src/scripts/main.ts to populate the lightbox.
+  Do not remove them.
+-->
+<div
+  class={`image-card ${extraClass ?? ''}`}
+  data-src={src}
+  data-event={event}
+  data-date={date}
+  aria-label={`${event} — ${date}. Click to enlarge.`}
+>
+  <img src={src} alt={alt} loading="lazy" decoding="async" />
+  <div class="img-caption" aria-hidden="true">
+    <span class="evt">{event}</span>
+    <span class="dat">{date}</span>
+  </div>
+</div>

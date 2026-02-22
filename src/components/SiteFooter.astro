@@ -1,0 +1,49 @@
+---
+/** SiteFooter — appears on every page via BaseLayout. */
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer" aria-label="Site footer">
+  <div class="footer-grid">
+
+    <!-- Brand column -->
+    <div class="footer-brand">
+      <div class="f-logo">TWAS</div>
+      <div class="f-full">Tigray Women's Association of Seattle</div>
+      <p>
+        Empowering Tigrayan women in the Pacific Northwest through
+        community, culture, and connection.
+      </p>
+    </div>
+
+    <!-- Quick links -->
+    <div class="footer-col">
+      <h4>Pages</h4>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/events">Events</a></li>
+        <li><a href="/board">Board</a></li>
+        <li><a href="/meeting-notes">Meeting Notes</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact summary -->
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <!-- ── Update with real contact info ── -->
+        <li><a href="mailto:info@twas-seattle.org">info@twas-seattle.org</a></li>
+        <li><a href="/contact">Send a message</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Ethiopian stripe above copyright -->
+  <div class="footer-stripe"></div>
+
+  <p class="footer-bottom">
+    &copy; {year} Tigray Women's Association of Seattle &mdash; ማሕበር ደቀ-ኣንስትዮ ትግራይ ሲያትл
+  </p>
+</footer>

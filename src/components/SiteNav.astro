@@ -1,0 +1,83 @@
+---
+/**
+ * SiteNav — top info bar + sticky navigation.
+ *
+ * To add a new page link: add an entry to `links` below, then create
+ * the corresponding src/pages/yourpage.astro file.
+ */
+import T from './T.astro';
+
+interface Props {
+  activePage?: string;
+}
+const { activePage } = Astro.props;
+
+const links = [
+  { href: '/',              en: 'Home',         ti: 'ቤት'       },
+  { href: '/events',        en: 'Events',        ti: 'ጉዳያት'    },
+  { href: '/board',         en: 'Board',         ti: 'ቦርድ'     },
+  { href: '/meeting-notes', en: 'Meeting Notes', ti: 'ቃለ-ኣኼባ'  },
+  { href: '/contact',       en: 'Contact',       ti: 'ርኸቡና'    },
+];
+---
+
+<!--
+  Top info bar — the community/government site pattern.
+  Shows a contact line so it's visible on every page without hunting.
+  Update the email and location to real values.
+-->
+<div class="topbar">
+  <div class="topbar-inner">
+    <span>
+      <T en="Tigray Women's Association of Seattle" ti="ማሕበር ደቀ-ኣንስትዮ ትግራይ ሲያትล" />
+    </span>
+    <span class="topbar-sep">|</span>
+    <!-- ── Update with real email ── -->
+    <a href="mailto:info@twas-seattle.org">info@twas-seattle.org</a>
+  </div>
+</div>
+
+<nav class="site-nav" aria-label="Main navigation">
+  <div class="nav-wrap">
+
+    <!-- Brand -->
+    <a href="/" class="nav-brand" aria-label="TWAS — Home">
+      <span class="acr">TWAS</span>
+      <span class="full">Tigray Women's Association of Seattle</span>
+    </a>
+
+    <div class="nav-right">
+
+      <!-- Desktop links -->
+      <ul class="nav-links" id="nav-links" role="list">
+        {links.map(({ href, en, ti }) => (
+          <li>
+            <a
+              href={href}
+              class={activePage === href ? 'active' : ''}
+              aria-current={activePage === href ? 'page' : undefined}
+            >
+              <T {en} {ti} />
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <!-- Language toggle: [ EN | ትግ ] -->
+      <div class="lang-toggle" role="group" aria-label="Language selector">
+        <button class="lang-btn active" id="lang-en" data-lang="en" aria-pressed="true">EN</button>
+        <button class="lang-btn" id="lang-ti" data-lang="ti" aria-pressed="false" lang="ti">ትግ</button>
+      </div>
+
+      <!-- Mobile hamburger -->
+      <button
+        class="nav-toggle"
+        id="nav-toggle"
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+        aria-controls="nav-links"
+      >☰</button>
+
+    </div>
+  </div>
+</nav>

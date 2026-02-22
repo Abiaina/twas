@@ -1,0 +1,120 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import T          from '@components/T.astro';
+---
+
+<BaseLayout title="Contact" activePage="/contact">
+
+  <div class="page-header">
+    <p class="ph-crumb"><a href="/">Home</a> / <T en="Contact" ti="ርኸቡና" /></p>
+    <h1><T en="Contact Us" ti="ርኸቡና" /></h1>
+    <p><T en="We'd love to hear from you. Reach out any time." ti="ናብ ሓሳብኩም ንሰምዕ ደስ ይብለና። ኩሉ ግዜ ርኸቡና።" /></p>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="contact-layout">
+
+        <!-- ── Info column ───────────────────────────────── -->
+        <div class="ci-col fade">
+          <h3><T en="Get in Touch" ti="ርኸቡና" /></h3>
+          <p>
+            <span class="en">Have a question, want to get involved, or just want to say hello? Use the form or reach us directly.</span>
+            <span class="ti" lang="ti">ሕቶ ኣለካ፡ ክትሳተፍ ትደሊ፡ ወይ ሰላም ክትብል? ቅጥዒ ተጠቀም ወይ ቀጥታ ርኸቡና።</span>
+          </p>
+
+          <div class="ci-row">
+            <div class="ci-icon" aria-hidden="true">✉</div>
+            <div class="ci-text">
+              <strong><T en="Email" ti="ኢ-መይル" /></strong>
+              <!-- ── Update with real email ── -->
+              <span><a href="mailto:info@twas-seattle.org">info@twas-seattle.org</a></span>
+            </div>
+          </div>
+
+          <div class="ci-row">
+            <div class="ci-icon" aria-hidden="true">📍</div>
+            <div class="ci-text">
+              <strong><T en="Location" ti="ኣድራሻ" /></strong>
+              <!-- ── Update with real address ── -->
+              <span>Seattle, Washington</span>
+            </div>
+          </div>
+
+          <div class="ci-row">
+            <div class="ci-icon" aria-hidden="true">📅</div>
+            <div class="ci-text">
+              <strong><T en="Meetings" ti="ኣኼባ" /></strong>
+              <span>
+                <span class="en">General meetings held monthly — see Events for dates.</span>
+                <span class="ti" lang="ti">ሓፈሻዊ ኣኼባ ኩሉ ወርሒ ይካየድ — ዕለታት ኣብ ጉዳያት ርኣዩ።</span>
+              </span>
+            </div>
+          </div>
+
+          <div class="social-row">
+            <!-- ── Update href with real social links ── -->
+            <a href="#" class="soc" aria-label="Facebook">f</a>
+            <a href="#" class="soc" aria-label="Instagram">ig</a>
+            <a href="#" class="soc" aria-label="YouTube">▶</a>
+          </div>
+        </div>
+
+        <!-- ── Contact form ──────────────────────────────── -->
+        <!--
+          Default: opens user's email client via mailto.
+          To use a hosted form, change action to e.g.
+          https://formspree.io/f/YOUR_ID  and method to "POST".
+        -->
+        <form
+          class="cf-card fade fd1"
+          action="mailto:info@twas-seattle.org"
+          method="get"
+          enctype="text/plain"
+          novalidate
+        >
+          <h3><T en="Send a Message" ti="መልእኽቲ ሰደዱ" /></h3>
+
+          <div class="ff-2col">
+            <div class="ff">
+              <label for="fname"><T en="First Name" ti="ቀዳማይ ስም" /></label>
+              <input type="text" id="fname" name="First Name" placeholder="Tigist" required />
+            </div>
+            <div class="ff">
+              <label for="lname"><T en="Last Name" ti="ናይ ስድራ ስም" /></label>
+              <input type="text" id="lname" name="Last Name" placeholder="Haile" />
+            </div>
+          </div>
+
+          <div class="ff">
+            <label for="email"><T en="Email Address" ti="ኢ-መይል ኣድራሻ" /></label>
+            <input type="email" id="email" name="Email" placeholder="you@example.com" required />
+          </div>
+
+          <div class="ff">
+            <label for="subject"><T en="Subject" ti="ኣርእስቲ" /></label>
+            <select id="subject" name="Subject">
+              <option value=""><T en="Select a topic…" ti="ኣርእስቲ ምረጽ…" /></option>
+              <option><T en="General inquiry"           ti="ሓፈሻዊ ሕቶ"         /></option>
+              <option><T en="Membership"                ti="ኣባልነት"             /></option>
+              <option><T en="Events &amp; volunteering" ti="ጉዳያትን ወለንተኛነትን"  /></option>
+              <option><T en="Partnership / sponsorship" ti="ሽርክነት / ስፖንሰርሺፕ" /></option>
+              <option><T en="Other"                     ti="ካልእ"               /></option>
+            </select>
+          </div>
+
+          <div class="ff">
+            <label for="message"><T en="Message" ti="መልእኽቲ" /></label>
+            <textarea id="message" name="Message" required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-blue" style="width:100%;">
+            <T en="Send Message" ti="መልእኽቲ ሰደዱ" />
+          </button>
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

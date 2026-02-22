@@ -1,0 +1,240 @@
+---
+/**
+ * Homepage — TWAS
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import T          from '@components/T.astro';
+import { eventsByDate }  from '@data/events';
+import { scheduleByDate } from '@data/schedule';
+
+const recentEvents = [...eventsByDate].reverse().slice(0, 3);
+
+function previewPhoto(evt: typeof recentEvents[0]) {
+  return evt.photos?.[0];
+}
+
+/** Find the next upcoming event relative to today (build time) */
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+const nextEvent = scheduleByDate.find(
+  item => new Date(item.date + 'T12:00:00') >= today
+);
+
+/** Format "2026-03-19" → "March 19, 2026" */
+function fmtDate(iso: string) {
+  return new Date(iso + 'T12:00:00').toLocaleDateString('en-US', {
+    month: 'long', day: 'numeric', year: 'numeric',
+  });
+}
+---
+
+<BaseLayout
+  title="Home"
+  activePage="/"
+  description="Tigray Women's Association of Seattle — Empowering Tigrayan women through community, culture, and connection."
+>
+
+  <!-- ── Hero ─────────────────────────────────────────────── -->
+  <section class="hero">
+    <img
+      class="hero-bg-img"
+      src="/2017/20170826_ashenda.jpg"
+      alt=""
+      aria-hidden="true"
+      fetchpriority="high"
+    />
+    <div class="hero-overlay" aria-hidden="true"></div>
+
+    <div class="hero-content">
+      <p class="hero-eyebrow">
+        <T en="Tigray Women's Association of Seattle" ti="ማሕበር ደቀ-ኣንስትዮ ትግራይ ሲያትल" />
+      </p>
+      <h1 class="hero-title">TWAS</h1>
+      <p class="hero-sub">
+        <T
+          en="Empowering Tigrayan women in the Pacific Northwest through community, culture, and sisterhood."
+          ti="ደቀ-ኣንስትዮ ትግራይ ኣብ ፓሲፊክ ሰሜናዊ ምዕራብ ብሕብረተሰብ፡ ባህሊ፡ ዕርክነትን ምብርታዕ።"
+        />
+      </p>
+      <div class="hero-actions">
+        <a href="/events" class="btn btn-gold">
+          <T en="Our Events" ti="ጉዳያትና" />
+        </a>
+        <a href="/contact" class="btn btn-ghost">
+          <T en="Get Involved" ti="ሳተፍ" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Stats strip ──────────────────────────────────────── -->
+  <div class="stats-strip">
+    <div class="stats-inner">
+      <div class="stat">
+        <div class="num">2015</div>
+        <div class="lbl"><T en="Founded" ti="ዝቆመ" /></div>
+      </div>
+      <div class="stat">
+        <div class="num">Seattle</div>
+        <div class="lbl"><T en="Washington" ti="ዋሽንግተን" /></div>
+      </div>
+      <div class="stat">
+        <div class="num">{eventsByDate.length}+</div>
+        <div class="lbl"><T en="Events" ti="ጉዳያት" /></div>
+      </div>
+      <div class="stat">
+        <div class="num">100%</div>
+        <div class="lbl"><T en="Community" ti="ሕብረተሰብ" /></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Next meeting banner ──────────────────────────────── -->
+  {nextEvent && (
+    <div class="next-up-bar">
+      <div class="next-up-inner">
+        <span class="next-up-label">
+          <T en="Next Meeting" ti="ዝቅጽል ኣኼባ" />
+        </span>
+        <span class="next-up-detail">
+          <span class="when">{fmtDate(nextEvent.date)}</span>
+          {' — '}
+          {nextEvent.title}
+          {nextEvent.location && <span class="en"> · {nextEvent.location}</span>}
+          {nextEvent.time && <span> · {nextEvent.time}</span>}
+        </span>
+        <a href="/events">
+          <T en="See all →" ti="ኩሎም ርኣዩ →" />
+        </a>
+      </div>
+    </div>
+  )}
+
+  <!-- ── Mission / About ──────────────────────────────────── -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="about-grid">
+
+        <div class="about-text fade">
+          <h2><T en="Who We Are" ti="ንሕና መን ኢና" /></h2>
+
+          <p class="en">
+            The Tigray Women's Association of Seattle (TWAS) is a community
+            organisation dedicated to the empowerment, well-being, and cultural
+            preservation of Tigrayan women and their families living in the
+            Pacific Northwest.
+          </p>
+          <p class="ti" lang="ti">
+            ማሕበር ደቀ-ኣንስትዮ ትግራይ ሲያትל (TWAS) ንምብርታዕ፡ ጽቡቕ ጥዕናን ባህላዊ ዕቃበን
+            ደቀ-ኣንስትዮ ትግራይን ስድራቤተን ኣብ ፓሲፊክ ሰሜናዊ ምዕራብ ዝተወፈሮ ናይ ሕብረተሰብ
+            ማሕበር እዩ።
+          </p>
+
+          <p class="en">
+            Founded in 2015, TWAS brings together women from the Tigray region
+            of Ethiopia — celebrating our heritage, supporting each other through
+            life's challenges, and building a stronger community in Seattle.
+          </p>
+          <p class="ti" lang="ti">
+            ኣብ 2015 ዝቖመ TWAS፡ ደቀ-ኣንስትዮ ካብ ክልል ትግራይ ኢትዮጵያ ብምእካብ — ውርሻና
+            ብምዕራይ፡ ኣብ ብድሆታት ህይወት ንሓድሕድ ብምድጋፍ፡ ሕብረተሰብ ኣብ ሲያትל ብምህናጽ።
+          </p>
+
+          <ul class="values-list">
+            <li><T en="Community empowerment and mutual support" ti="ምብርታዕ ሕብረተሰብን ሓድሕዳዊ ደገፍን" /></li>
+            <li><T en="Cultural preservation and celebration"    ti="ዕቃበ ባህልን ምልዓሉን"               /></li>
+            <li><T en="Education and professional development"   ti="ትምህርትን ሞያዊ ምዕባለን"             /></li>
+            <li><T en="Advocacy for Tigrayan women and families" ti="ምጥባቕ ደቀ-ኣንስትዮን ስድራቤትን ትግራይ" /></li>
+          </ul>
+
+          <a href="/board" class="btn btn-blue">
+            <T en="Meet Our Board" ti="ቦርዳና ተረኽቡ" />
+          </a>
+        </div>
+
+        <!-- Decorative image (hidden on mobile) -->
+        <div class="about-img-wrap fade fd1">
+          <img
+            src="/2017/20170429_benefit2.jpg"
+            alt="TWAS community gathering"
+            loading="lazy"
+          />
+          <div class="about-badge">
+            <div class="yr">2015</div>
+            <div class="tx"><T en="Est. Seattle" ti="ሲያትல" /></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Recent events ────────────────────────────────────── -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header fade">
+        <h2><T en="Recent Events" ti="ዝቐረቡ ጉዳያት" /></h2>
+        <div class="eth-stripe"></div>
+        <p class="sub">
+          <T
+            en="A look at our latest community gatherings, celebrations, and programs."
+            ti="ናይ ዝቐረቡ ኣኼባ ሕብረተሰብ፡ ድግሳትን ፕሮግራምና ድማ ርኣዩ።"
+          />
+        </p>
+      </div>
+
+      <div class="event-cards-grid">
+        {recentEvents.map((evt, i) => {
+          const photo = previewPhoto(evt);
+          return (
+            <a href={`/events#${evt.id}`} class={`event-card fade fd${i + 1}`}>
+              <div class="ec-media">
+                {photo
+                  ? <img src={photo.src} alt={photo.alt} loading="lazy" />
+                  : <div style="background:var(--sea-blue);display:flex;align-items:center;justify-content:center;height:100%;color:var(--eth-gold);font-size:2.5rem;">▶</div>
+                }
+                {evt.tags?.[0] && <span class="ec-tag">{evt.tags[0]}</span>}
+              </div>
+              <div class="ec-body">
+                <div class="ec-date">{evt.formattedDate}</div>
+                <h3>{evt.title}</h3>
+                <p>{evt.description.slice(0, 110)}…</p>
+                <span class="ec-link">
+                  <T en="View photos →" ti="ስእልታት ርኣዩ →" />
+                </span>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+
+      <div style="text-align:center; margin-top:2.5rem;">
+        <a href="/events" class="btn btn-blue">
+          <T en="All Events →" ti="ኩሎም ጉዳያት →" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Join CTA ──────────────────────────────────────────── -->
+  <section class="section" style="background:var(--sea-blue); color:var(--white); text-align:center;">
+    <div class="container">
+      <h2 style="font-family:var(--font-head); font-size:clamp(1.5rem,4vw,2.3rem); color:var(--eth-gold); margin-bottom:1rem;" class="fade">
+        <T en="Join Our Community" ti="ናይ ሕብረተሰብና ኣካል ኩኑ" />
+      </h2>
+      <p style="color:rgba(255,255,255,.82); max-width:500px; margin:0 auto 2rem; font-size:.97rem;" class="fade fd1">
+        <span class="en">
+          TWAS is open to all Tigrayan women in the Seattle area and
+          those who support our mission. Reach out to get involved.
+        </span>
+        <span class="ti" lang="ti">
+          TWAS ንኹለን ደቀ-ኣንስትዮ ትግራይ ኣብ ሲያትл ዞባ ከምኡ'ውን ሸቶና ዝድግፋ ክፉት እዩ። ንምሳተፍ ርኸቡና።
+        </span>
+      </p>
+      <a href="/contact" class="btn btn-gold fade fd2">
+        <T en="Contact Us" ti="ርኸቡና" />
+      </a>
+    </div>
+  </section>
+
+</BaseLayout>

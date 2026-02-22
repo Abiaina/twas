@@ -1,0 +1,17 @@
+{
+  "name": "twas-site",
+  "version": "1.0.0",
+  "description": "Tigray Women's Association of Seattle — Official Website",
+  "private": true,
+  "scripts": {
+    "dev":     "astro dev",
+    "build":   "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^4.16.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

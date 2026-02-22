@@ -1,0 +1,30 @@
+---
+/**
+ * T.astro — Bilingual inline text helper.
+ *
+ * Usage (inline):
+ *   <T en="Home" ti="ቤት" />
+ *
+ * Usage (block — pass tag="p" or tag="h2" etc.):
+ *   <T tag="p" en="English paragraph." ti="ትግርኛ ሓሳብ።" />
+ *
+ * The CSS in global.css handles showing/hiding based on
+ * whether <html> has the class "lang-ti".
+ *
+ * Tigrinya text gets lang="ti" so browsers can apply
+ * the correct Ethiopic font.
+ */
+interface Props {
+  en:    string;
+  ti:    string;
+  /** HTML tag to use. Default: "span" (inline). */
+  tag?:  string;
+  class?: string;
+}
+
+const { en, ti, tag = 'span', class: cls = '' } = Astro.props;
+const Tag = tag as any;
+---
+
+<Tag class={`en ${cls}`.trim()}>{en}</Tag>
+<Tag class={`ti ${cls}`.trim()} lang="ti">{ti}</Tag>

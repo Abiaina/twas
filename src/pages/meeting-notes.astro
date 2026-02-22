@@ -1,0 +1,75 @@
+---
+import BaseLayout  from '@layouts/BaseLayout.astro';
+import T           from '@components/T.astro';
+import { meetingNotes, notesByYear } from '@data/notes';
+
+const grouped = notesByYear(meetingNotes);
+const years   = Array.from(grouped.keys());
+
+function parseBadge(iso: string) {
+  const d = new Date(iso);
+  return {
+    mo: d.toLocaleString('en-US', { month: 'short' }),
+    dy: d.getDate().toString(),
+    yr: d.getFullYear().toString(),
+  };
+}
+---
+
+<BaseLayout title="Meeting Notes" activePage="/meeting-notes">
+
+  <div class="page-header">
+    <p class="ph-crumb"><a href="/">Home</a> / <T en="Meeting Notes" ti="ቃለ-ኣኼባ" /></p>
+    <h1><T en="Meeting Notes" ti="ቃለ-ኣኼባ" /></h1>
+    <p>
+      <T
+        en="Published minutes from TWAS general and board meetings."
+        ti="ካብ ሓፈሻዊ ኣኼባን ቦርድ ኣኼባን TWAS ዝተሓተሙ ቃለ-ኣኼባ።"
+      />
+    </p>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="notes-wrap">
+
+        {years.map(year => {
+          const notes = grouped.get(year)!;
+          return (
+            <div class="year-group fade">
+              <div class="year-label">{year}</div>
+
+              {notes.map(note => {
+                const badge = parseBadge(note.date);
+                const Tag   = note.fileUrl ? 'a' : 'div';
+                return (
+                  <Tag
+                    class="note-row"
+                    {...(note.fileUrl
+                      ? { href: note.fileUrl, target: '_blank', rel: 'noopener noreferrer' }
+                      : {})}
+                  >
+                    <div class="note-badge" aria-label={`${badge.mo} ${badge.dy}, ${badge.yr}`}>
+                      <span class="mo">{badge.mo}</span>
+                      <span class="dy">{badge.dy}</span>
+                      <span class="yr">{badge.yr}</span>
+                    </div>
+                    <div class="note-info">
+                      <h4>{note.title}</h4>
+                      <p>{note.summary}</p>
+                    </div>
+                    {note.fileUrl && (
+                      <span class="note-arrow" aria-hidden="true">↓ PDF</span>
+                    )}
+                  </Tag>
+                );
+              })}
+            </div>
+          );
+        })}
+
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

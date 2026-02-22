@@ -1,0 +1,72 @@
+---
+import SiteNav    from '@components/SiteNav.astro';
+import SiteFooter from '@components/SiteFooter.astro';
+import '@styles/global.css';
+
+interface Props {
+  title:        string;
+  description?: string;
+  activePage?:  string;
+}
+
+const {
+  title,
+  description = "Tigray Women's Association of Seattle — Empowering community, preserving culture, building futures.",
+  activePage,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title} | TWAS</title>
+
+    <!--
+      Open Sans — City of Seattle style guide font.
+      Only the weights we actually use (400, 600, 700) to keep the load small.
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!--
+      Seattle TextBold is self-hosted.
+      Drop /public/fonts/SeattleTextBold.woff2 into the project to enable it.
+      The @font-face declaration in global.css handles the rest.
+    -->
+  </head>
+
+  <body>
+    <SiteNav activePage={activePage} />
+
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <SiteFooter />
+
+    <!-- Global lightbox — populated by src/scripts/main.ts -->
+    <div class="lightbox" id="lightbox" aria-modal="true" role="dialog" aria-label="Photo viewer">
+      <button class="lb-close" id="lb-close" aria-label="Close">✕</button>
+      <button class="lb-prev"  id="lb-prev"  aria-label="Previous photo">‹</button>
+      <button class="lb-next"  id="lb-next"  aria-label="Next photo">›</button>
+      <div class="lb-img-wrap">
+        <img id="lb-img" src="" alt="" />
+      </div>
+      <div class="lb-caption">
+        <span class="lb-event" id="lb-event"></span>
+        <span class="lb-date"  id="lb-date"></span>
+        <span class="lb-count" id="lb-count"></span>
+      </div>
+    </div>
+
+    <script>
+      import '../scripts/main.ts';
+    </script>
+  </body>
+</html>

@@ -1,0 +1,195 @@
+---
+/**
+ * Events page — upcoming events list + past events timeline.
+ *
+ * ADDING UPCOMING EVENTS / MEETINGS:
+ *   → Edit src/data/schedule.ts
+ *
+ * ADDING PAST EVENTS WITH PHOTOS:
+ *   → Edit src/data/events.ts
+ *
+ * Past events are shown with visible past dates are hidden client-side,
+ * so no rebuild is needed as meetings pass.
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ImageCard  from '@components/ImageCard.astro';
+import T          from '@components/T.astro';
+import { eventsByDate }             from '@data/events';
+import { scheduleByDate, typeLabel } from '@data/schedule';
+
+// Past events — most recent first
+const pastEvents = [...eventsByDate].reverse();
+
+/** Format "2026-03-19" → { mo: "MAR", dy: "19", iso: "2026-03-19" } */
+function parseDateParts(iso: string) {
+  const d = new Date(iso + 'T12:00:00'); // noon avoids timezone edge-cases
+  return {
+    mo:  d.toLocaleString('en-US', { month: 'short' }).toUpperCase(),
+    dy:  d.getDate().toString(),
+    iso,
+  };
+}
+---
+
+<BaseLayout
+  title="Events"
+  activePage="/events"
+  description="TWAS upcoming meetings and events, plus a history of our community gatherings."
+>
+
+  <!-- ── Page header ──────────────────────────────────────── -->
+  <div class="page-header">
+    <p class="ph-crumb"><a href="/">Home</a> / <T en="Events" ti="ጉዳያት" /></p>
+    <h1><T en="Events &amp; Meetings" ti="ጉዳያትን ኣኼባን" /></h1>
+    <p>
+      <T
+        en="Upcoming meetings, community events, and a photo record of our history."
+        ti="ዝመጽእ ኣኼባ፡ ጉዳያት ሕብረተሰብን ናይ ታሪኽና ስእላዊ መዝገብን።"
+      />
+    </p>
+  </div>
+
+  <section class="section">
+    <div class="container">
+
+      <!-- ══════════════════════════════════════════════════ -->
+      <!--  UPCOMING                                          -->
+      <!-- ══════════════════════════════════════════════════ -->
+      <div class="upcoming-section fade">
+        <h2><T en="Upcoming" ti="ዝመጽእ" /></h2>
+
+        <!--
+          All schedule items are rendered; JS hides past ones so the
+          list stays current without rebuilding the site.
+          data-date lets the script compare against today's date.
+        -->
+        <div class="upcoming-list" id="upcoming-list">
+          {scheduleByDate.map(item => {
+            const d = parseDateParts(item.date);
+            return (
+              <div
+                class="upcoming-item"
+                data-date={d.iso}
+                aria-label={`${item.title}, ${item.date}`}
+              >
+                <!-- Date badge -->
+                <div class="upd-date">
+                  <span class="mo">{d.mo}</span>
+                  <span class="dy">{d.dy}</span>
+                </div>
+
+                <!-- Details -->
+                <div class="upd-body">
+                  <span class={`upd-type ${item.type}`}>
+                    {typeLabel[item.type]}
+                  </span>
+                  <div class="upd-title">{item.title}</div>
+                  <div class="upd-meta">
+                    {item.time     && <span>🕐 {item.time}</span>}
+                    {item.location && <span>📍 {item.location}</span>}
+                  </div>
+                  {item.description && (
+                    <div class="upd-desc">{item.description}</div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+
+          <!-- Shown by JS when all items are past -->
+          <p class="no-upcoming" id="no-upcoming" style="display:none;">
+            <T
+              en="No upcoming events scheduled right now. Check back soon."
+              ti="ሕጂ ዝምደብ ዝቅጽል ጉዳያት የለን። ቀጻሊ ርኸቡ።"
+            />
+          </p>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════ -->
+      <!--  PAST EVENTS                                       -->
+      <!-- ══════════════════════════════════════════════════ -->
+      <div class="past-divider">
+        <T en="Past Events" ti="ዝሓለፉ ጉዳያት" />
+      </div>
+
+      <div class="timeline">
+        <div class="tl-line" aria-hidden="true"></div>
+
+        {pastEvents.map((evt, i) => (
+          <article class={`tl-item fade fd${Math.min(i + 1, 3)}`} id={evt.id}>
+
+            <div class="tl-node" aria-hidden="true">
+              <div class="tl-dot"></div>
+            </div>
+
+            <div class="tl-body">
+              <div class="tl-header">
+                <span class="tl-chip">{evt.formattedDate}</span>
+                <h3>{evt.title}</h3>
+                <p>{evt.description}</p>
+                {evt.tags && (
+                  <div class="tl-tags">
+                    {evt.tags.map(tag => <span class="tl-tag">{tag}</span>)}
+                  </div>
+                )}
+              </div>
+
+              {evt.photos && evt.photos.length > 0 && (
+                <div class="tl-media">
+                  <div
+                    class="photo-grid"
+                    style={evt.photos.length === 1 ? 'grid-template-columns:1fr;max-width:380px;' : ''}
+                  >
+                    {evt.photos.map(photo => <ImageCard {...photo} />)}
+                  </div>
+                </div>
+              )}
+
+              {evt.videoEmbedUrl && (
+                <div class="tl-media">
+                  <div class="video-wrap">
+                    <iframe
+                      src={evt.videoEmbedUrl}
+                      title={evt.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowfullscreen
+                      loading="lazy"
+                    ></iframe>
+                  </div>
+                </div>
+              )}
+            </div>
+
+          </article>
+        ))}
+      </div>
+
+    </div>
+  </section>
+
+</BaseLayout>
+
+<!--
+  Filter out past upcoming items client-side.
+  This keeps the list current without needing a site rebuild.
+-->
+<script>
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const items    = document.querySelectorAll<HTMLElement>('.upcoming-item[data-date]');
+  const noMsg    = document.getElementById('no-upcoming');
+  let   visible  = 0;
+
+  items.forEach((item) => {
+    const d = new Date(item.dataset.date + 'T12:00:00');
+    if (d < today) {
+      item.style.display = 'none';
+    } else {
+      visible++;
+    }
+  });
+
+  if (visible === 0 && noMsg) noMsg.style.display = 'block';
+</script>

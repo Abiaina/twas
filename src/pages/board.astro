@@ -2,12 +2,14 @@
 import BaseLayout    from '@layouts/BaseLayout.astro';
 import T             from '@components/T.astro';
 import { boardMembers } from '@data/board';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <BaseLayout title="Board" activePage="/board">
 
   <div class="page-header">
-    <p class="ph-crumb"><a href="/">Home</a> / <T en="Board" ti="ቦርድ" /></p>
+    <p class="ph-crumb"><a href={base + '/'}>Home</a> / <T en="Board" ti="ቦርድ" /></p>
     <h1><T en="Our Board" ti="ቦርዳና" /></h1>
     <p><T en="Meet the dedicated women leading TWAS." ti="TWAS ዝመርሓ ርዑዳት ደቀ-ኣንስትዮ ተፈልጡ።" /></p>
   </div>
@@ -54,7 +56,7 @@ import { boardMembers } from '@data/board';
         <span class="en">TWAS welcomes volunteers and community supporters. Contact us to learn about current opportunities.</span>
         <span class="ti" lang="ti">TWAS ወለንተኛታትን ደገፍቲ ሕብረተሰብን ትቅበል። ብዛዕባ ዘለዋ ዕድላት ፍለጡ ርኸቡና።</span>
       </p>
-      <a href="/contact" class="btn btn-blue fade fd2">
+      <a href={base + '/contact'} class="btn btn-blue fade fd2">
         <T en="Contact Us" ti="ርኸቡና" />
       </a>
     </div>

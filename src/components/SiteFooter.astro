@@ -1,6 +1,7 @@
 ---
 /** SiteFooter — appears on every page via BaseLayout. */
 const year = new Date().getFullYear();
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <footer class="site-footer" aria-label="Site footer">
@@ -20,11 +21,11 @@ const year = new Date().getFullYear();
     <div class="footer-col">
       <h4>Pages</h4>
       <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/events">Events</a></li>
-        <li><a href="/board">Board</a></li>
-        <li><a href="/meeting-notes">Meeting Notes</a></li>
-        <li><a href="/contact">Contact</a></li>
+        <li><a href={base + '/'}>Home</a></li>
+        <li><a href={base + '/events'}>Events</a></li>
+        <li><a href={base + '/board'}>Board</a></li>
+        <li><a href={base + '/meeting-notes'}>Meeting Notes</a></li>
+        <li><a href={base + '/contact'}>Contact</a></li>
       </ul>
     </div>
 
@@ -34,7 +35,7 @@ const year = new Date().getFullYear();
       <ul>
         <!-- ── Update with real contact info ── -->
         <li><a href="mailto:info@twas-seattle.org">info@twas-seattle.org</a></li>
-        <li><a href="/contact">Send a message</a></li>
+        <li><a href={base + '/contact'}>Send a message</a></li>
       </ul>
     </div>
 

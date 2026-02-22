@@ -17,6 +17,8 @@ import T          from '@components/T.astro';
 import { eventsByDate }             from '@data/events';
 import { scheduleByDate, typeLabel } from '@data/schedule';
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 // Past events — most recent first
 const pastEvents = [...eventsByDate].reverse();
 
@@ -39,7 +41,7 @@ function parseDateParts(iso: string) {
 
   <!-- ── Page header ──────────────────────────────────────── -->
   <div class="page-header">
-    <p class="ph-crumb"><a href="/">Home</a> / <T en="Events" ti="ጉዳያት" /></p>
+    <p class="ph-crumb"><a href={base + '/'}>Home</a> / <T en="Events" ti="ጉዳያት" /></p>
     <h1><T en="Events &amp; Meetings" ti="ጉዳያትን ኣኼባን" /></h1>
     <p>
       <T

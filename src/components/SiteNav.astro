@@ -12,6 +12,10 @@ interface Props {
 }
 const { activePage } = Astro.props;
 
+// Strip trailing slash so href={base + '/events'} works on both
+// GitHub Pages (/twas) and a future custom domain (empty string).
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 const links = [
   { href: '/',              en: 'Home',         ti: 'ቤት'       },
   { href: '/events',        en: 'Events',        ti: 'ጉዳያት'    },
@@ -41,7 +45,7 @@ const links = [
   <div class="nav-wrap">
 
     <!-- Brand -->
-    <a href="/" class="nav-brand" aria-label="TWAS — Home">
+    <a href={base + '/'} class="nav-brand" aria-label="TWAS — Home">
       <span class="acr">TWAS</span>
       <span class="full">Tigray Women's Association of Seattle</span>
     </a>
@@ -53,7 +57,7 @@ const links = [
         {links.map(({ href, en, ti }) => (
           <li>
             <a
-              href={href}
+              href={base + href}
               class={activePage === href ? 'active' : ''}
               aria-current={activePage === href ? 'page' : undefined}
             >

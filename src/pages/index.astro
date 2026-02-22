@@ -4,8 +4,10 @@
  */
 import BaseLayout from '@layouts/BaseLayout.astro';
 import T          from '@components/T.astro';
-import { eventsByDate }  from '@data/events';
+import { eventsByDate }   from '@data/events';
 import { scheduleByDate } from '@data/schedule';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const recentEvents = [...eventsByDate].reverse().slice(0, 3);
 
@@ -57,10 +59,10 @@ function fmtDate(iso: string) {
         />
       </p>
       <div class="hero-actions">
-        <a href="/events" class="btn btn-gold">
+        <a href={base + '/events'} class="btn btn-gold">
           <T en="Our Events" ti="ጉዳያትና" />
         </a>
-        <a href="/contact" class="btn btn-ghost">
+        <a href={base + '/contact'} class="btn btn-ghost">
           <T en="Get Involved" ti="ሳተፍ" />
         </a>
       </div>
@@ -103,7 +105,7 @@ function fmtDate(iso: string) {
           {nextEvent.location && <span class="en"> · {nextEvent.location}</span>}
           {nextEvent.time && <span> · {nextEvent.time}</span>}
         </span>
-        <a href="/events">
+        <a href={base + '/events'}>
           <T en="See all →" ti="ኩሎም ርኣዩ →" />
         </a>
       </div>
@@ -147,7 +149,7 @@ function fmtDate(iso: string) {
             <li><T en="Advocacy for Tigrayan women and families" ti="ምጥባቕ ደቀ-ኣንስትዮን ስድራቤትን ትግራይ" /></li>
           </ul>
 
-          <a href="/board" class="btn btn-blue">
+          <a href={base + '/board'} class="btn btn-blue">
             <T en="Meet Our Board" ti="ቦርዳና ተረኽቡ" />
           </a>
         </div>
@@ -187,7 +189,7 @@ function fmtDate(iso: string) {
         {recentEvents.map((evt, i) => {
           const photo = previewPhoto(evt);
           return (
-            <a href={`/events#${evt.id}`} class={`event-card fade fd${i + 1}`}>
+            <a href={`${base}/events#${evt.id}`} class={`event-card fade fd${i + 1}`}>
               <div class="ec-media">
                 {photo
                   ? <img src={photo.src} alt={photo.alt} loading="lazy" />
@@ -209,7 +211,7 @@ function fmtDate(iso: string) {
       </div>
 
       <div style="text-align:center; margin-top:2.5rem;">
-        <a href="/events" class="btn btn-blue">
+        <a href={base + '/events'} class="btn btn-blue">
           <T en="All Events →" ti="ኩሎም ጉዳያት →" />
         </a>
       </div>
@@ -231,7 +233,7 @@ function fmtDate(iso: string) {
           TWAS ንኹለን ደቀ-ኣንስትዮ ትግራይ ኣብ ሲያትл ዞባ ከምኡ'ውን ሸቶና ዝድግፋ ክፉት እዩ። ንምሳተፍ ርኸቡና።
         </span>
       </p>
-      <a href="/contact" class="btn btn-gold fade fd2">
+      <a href={base + '/contact'} class="btn btn-gold fade fd2">
         <T en="Contact Us" ti="ርኸቡና" />
       </a>
     </div>
